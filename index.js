@@ -22,12 +22,16 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 app.use(express.static('public'));
 app.use(express.static('./public/uploads/'));
+app.use(express.static('./public/static/'));
 
 app.get('/home', (req, res, next)=> {
     const path = 'public/uploads/';
     fs.readdir(path, function(err, items) {
     console.log(items);
-    
+    items.sort(function(a, b) {
+      return fs.statSync(path + b).mtime.getTime() - 
+             fs.statSync(path + a).mtime.getTime();
+  });  
    var images='';
    for (var i=0; i<items.length; i++) {
     images += `<img src="${items[i]}" class="galleria"> 
@@ -59,7 +63,7 @@ app.post('/upload', upload.single('myfile'), function (req, res, next) {
   console.log("Uploaded: " + req.file.filename);
   uploaded_files.push(req.file.filename);
    
-  var htmlContent = ` <link rel="stylesheet" href="style.css">
+  var htmlContent = ` <link rel="stylesheet" href="index.css">
   <h1 class='headingclass'>Kenziegram</h1>
   <p>File successfully uploaded!</p>
   <a href="http://localhost:3000/home">Go back</a>
