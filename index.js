@@ -42,7 +42,7 @@ app.get('/home', (req, res, next)=> {
     </head>
     <body>
         <h1 class='headingclass'>Kenziegram</h1>
-        <form action="http://localhost:3000/upload" method="post" enctype="multipart/form-data">
+        <form action="/upload" method="post" enctype="multipart/form-data">
             <div>
               <label for="myfile">Select a file to upload</label>
               <input type="file"  name="myfile" id="myfile">
@@ -66,7 +66,7 @@ app.post('/upload', upload.single('myfile'), function (req, res, next) {
   var htmlContent = ` <link rel="stylesheet" href="index.css">
   <h1 class='headingclass'>Kenziegram</h1>
   <p>File successfully uploaded!</p>
-  <a href="http://localhost:3000/home">Go back</a>
+  <a href="/home">Go back</a>
   <img src="${ req.file.filename} " class="galleria">`
   
    res.send(htmlContent);
